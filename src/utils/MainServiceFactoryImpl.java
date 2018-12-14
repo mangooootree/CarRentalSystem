@@ -31,13 +31,13 @@ public class MainServiceFactoryImpl implements ServiceFactory {
 
     @Override
     public OrderService getOrderService() throws FactoryException {
-        OrderServiceImpl orderService = new OrderServiceImpl(getOrderDao(), getUserDao(), getCarDao());
+        OrderServiceImpl orderService = new OrderServiceImpl(getOrderDao(), getUserService(), getCarService());
         return orderService;
     }
 
     @Override
     public BillService getBillService() throws FactoryException {
-        BillServiceImpl billService = new BillServiceImpl(getBillDao());
+        BillServiceImpl billService = new BillServiceImpl(getBillDao(),getOrderService());
         return billService;
     }
 

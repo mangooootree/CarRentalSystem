@@ -9,7 +9,7 @@ public interface CarService {
 
     List<Car> findAll() throws ServiceException;
 
-    void save(Car car) throws ServiceException;
+    Long save(Car car) throws ServiceException;
 
     void delete(Long id) throws ServiceException;
 

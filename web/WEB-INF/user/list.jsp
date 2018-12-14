@@ -42,7 +42,7 @@
                     ${user.role.name}
             </td>
             <td>
-                    <a href="/edituser?id=${user.id}">Редактировать</a><br>
+                    <a href="/user/edit.html?id=${user.id}">Редактировать</a><br>
                     <a href="/user/delete.html?id=${user.id}">Удалить</a>
             </td>
         </tr>

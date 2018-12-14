@@ -3,14 +3,17 @@ package service;
 import dao.BillDao;
 import dao.DaoException;
 import domain.Bill;
+import domain.Order;
 
 import java.util.List;
 
 public class BillServiceImpl implements BillService {
     private BillDao billDao;
+    private OrderService orderService;
 
-    public BillServiceImpl(BillDao billDao) {
+    public BillServiceImpl(BillDao billDao, OrderService orderService) {
         this.billDao = billDao;
+        this.orderService = orderService;
     }
 
     public BillServiceImpl() {
@@ -19,7 +22,11 @@ public class BillServiceImpl implements BillService {
     @Override
     public Bill findById(Long id) throws ServiceException {
         try {
-            return billDao.read(id);
+            Bill bill = billDao.read(id);
+            Order order = orderService.findById(bill.getOrder().getId());
+            bill.setOrder(order);
+            return bill;
+
         }
         catch (DaoException e){
             throw new ServiceException();
@@ -29,7 +36,12 @@ public class BillServiceImpl implements BillService {
     @Override
     public List<Bill> findAll() throws ServiceException {
         try {
-            return billDao.getAllBills();
+            List<Bill> bills = billDao.getAllBills();
+            for (Bill bill: bills){
+                Order order = orderService.findById(bill.getOrder().getId());
+                bill.setOrder(order);
+            }
+            return bills;
         }
         catch (DaoException e){
             throw new ServiceException();

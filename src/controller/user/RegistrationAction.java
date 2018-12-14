@@ -37,7 +37,7 @@ public class RegistrationAction extends Action {
                 user.setLogin(login);
                 user.setPassword(password);
                 user.setRole(Role.CLIENT);
-                userService.save(user);
+                user.setId(userService.save(user));
                 req.getSession().setAttribute("currentUser", user);
                 return new Forward("/main.html");
 

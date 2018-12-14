@@ -35,9 +35,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void save(Car car) throws ServiceException {
+    public Long save(Car car) throws ServiceException {
         try {
-            carDao.create(car);
+            return carDao.create(car);
         } catch (DaoException e) {
             throw new ServiceException();
         }

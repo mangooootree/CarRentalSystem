@@ -71,28 +71,26 @@
                         </c:otherwise>
                     </c:choose>
             </td>
-            <td>
-                <div style="padding-left: 10px">${order.comments} <br><br></div>
+            <td width="200px">
+                <div style="padding-left: 10px; width: inherit; word-break: break-all" >${order.comments} <br><br></div>
                 <c:choose>
                 <c:when test="${currentUser.role == 'ADMIN'}">
-                            <form action="/func" method="post" style="width: 200px">
+                            <form action="/order/setComment.html?id=${order.id}" method="post" style="width: 200px">
                                 <input type="text" value="" name="comment" placeholder="Введите комментарий">
                                 <input type="hidden" name="id" value="${order.id}">
                                 <button type="submit">Добавить</button>
                             </form>
                 </c:when>
-                    <c:otherwise>
-                        ${order.comments}
-                    </c:otherwise>
                 </c:choose>
             </td>
 
             <c:if test="${currentUser.role == 'ADMIN'}">
                 <td>
                     <a href="/order/accept.html?id=${order.id}">Одобрить</a><br>
-                    <a href="/order/reject/html?id=${order.id}">Отклонить</a><br>
+                    <a href="/order/reject.html?id=${order.id}">Отклонить</a><br>
                     <a href="/order/setPaid.html?id=${order.id}">Оплачен</a><br>
-                    <a href="/order/setUnpaid.html?id=${order.id}">Не оплачен</a><br>
+                    <a href="/order/setUnPaid.html?id=${order.id}">Не оплачен</a><br>
+                    <a href="/bill/new.html?id=${order.id}">Выставить счет</a><br>
                     <a href="/order/delete.html?id=${order.id}">Удалить</a><br>
                 </td>
             </c:if>

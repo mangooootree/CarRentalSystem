@@ -4,7 +4,7 @@ public class Bill extends Entity {
     private Order order;
     private Long price;
     private String damageDescription;
-    private boolean isPaid;
+    private boolean paid;
 
     public Order getOrder() {
         return order;
@@ -31,11 +31,11 @@ public class Bill extends Entity {
     }
 
     public boolean isPaid() {
-        return isPaid;
+        return paid;
     }
 
     public void setPaid(boolean paid) {
-        isPaid = paid;
+        this.paid = paid;
     }
 
     public Bill() {

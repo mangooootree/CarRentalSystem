@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="../common/header.jsp" %>
+<div align="center">
 
-<table align="center" border="1" cellpadding="10">
-
+<table border="1" cellpadding="10">
+    <td style="border: 0px">
+        <a href="/car/new.html">Добавить автомобиль</a>
+    </td>
     <tr>
         <th>
             Модель
@@ -43,16 +46,16 @@
             </td>
             <td>
                     ${car.ordered ? 'Заказан':'Свободен'}
-                    <%java.text.DateFormat df = new java.text.SimpleDateFormat("dd/MM/yyyy"); %>
-                        <%= df.format(${car.date}) %>
             </td>
             <td>
                     ${car.price}
             </td>
             <td>
-                <a href="/car/delete.html?id=${car.id}">Удалить</a>
+                <a href="/car/delete.html?id=${car.id}">Удалить</a><br>
+                <a href="/car/edit.html?id=${car.id}">Редактировать</a><br>
             </td>
         </tr>
     </c:forEach>
 </table>
+</div>
 <%@include file="../common/footer.jsp" %>

@@ -24,7 +24,7 @@
                     Цена за сутки: <b>${car.price}</b>
                 </div>
                 <br>
-                <a href="/order?id=${car.id}">ORDER NOW!</a>
+                <a href="/order/new.html?id=${car.id}">ORDER NOW!</a>
             </td>
             <td>
                 <img src="../img/${car.id}.jpg" height="200" width="300" align="middle" border="1" style="border-color: #eef6fd ">

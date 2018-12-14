@@ -44,11 +44,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) throws ServiceException {
+    public Long save(User user) throws ServiceException {
         try {
-            userDao.create(user);
+            return userDao.create(user);
         } catch (DaoException e1) {
-            e1.printStackTrace();
+            throw new ServiceException();
         }
     }
 
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDao.update(user);
         } catch (DaoException e1) {
-            e1.printStackTrace();
+            throw new ServiceException();
         }
     }
 

@@ -5,13 +5,14 @@ import utils.MainServiceFactoryImpl;
 import utils.ServiceFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
-
-
+@MultipartConfig
 public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
@@ -40,6 +41,10 @@ public class DispatcherServlet extends HttpServlet {
             throws ServletException, IOException {
         String url = req.getRequestURI();
         String context = req.getContextPath();
+
+        req.setAttribute("imgPath", getServletContext().getRealPath("/img/"));
+        req.setAttribute("tempDir", (File)getServletContext().getAttribute("javax.servlet.context.tempdir"));
+
         int postfixIndex = url.lastIndexOf(".html");
         if(postfixIndex != -1) {
             url = url.substring(context.length(), postfixIndex);
@@ -56,6 +61,8 @@ public class DispatcherServlet extends HttpServlet {
                 throw new ServletException(e);
             }
         }
+
+
         if(forward != null && forward.isRedirect()) {
             resp.sendRedirect(context + forward.getUrl());
         } else {

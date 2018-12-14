@@ -1,9 +1,13 @@
 package controller;
 
+import controller.bill.BillCreateAction;
+import controller.bill.BillDeleteAction;
+import controller.bill.BillListAction;
+import controller.bill.BillSaveAction;
 import controller.car.CarDeleteAction;
 import controller.car.CarListAction;
-import controller.order.OrderDeleteAction;
-import controller.order.OrderListAction;
+import controller.car.CarSaveAction;
+import controller.order.*;
 import controller.user.*;
 
 import javax.servlet.ServletException;
@@ -19,12 +23,28 @@ public class ActionFactory {
         actions.put("/registration", RegistrationAction.class);
         actions.put("/user/list", UserListAction.class);
         actions.put("/user/delete", UserDeleteAction.class);
+        actions.put("/user/edit", UserEditAction.class);
+        actions.put("/user/update", UserUpdateAction.class);
 
         actions.put("/car/list", CarListAction.class);
         actions.put("/car/delete", CarDeleteAction.class);
+        actions.put("/car/save", CarSaveAction.class);
 
         actions.put("/order/list", OrderListAction.class);
         actions.put("/order/delete", OrderDeleteAction.class);
+        actions.put("/order/accept", OrderAcceptAction.class);
+        actions.put("/order/reject", OrderRejectAction.class);
+        actions.put("/order/setPaid", OrderSetPaidAction.class);
+        actions.put("/order/setUnPaid", OrderSetUnPaidAction.class);
+        actions.put("/order/setComment", OrderSetCommentAction.class);
+        actions.put("/order/new", OrderCreateAction.class);
+        actions.put("/order/save", OrderSaveAction.class);
+
+        actions.put("/bill/new", BillCreateAction.class);
+        actions.put("/bill/save", BillSaveAction.class);
+        actions.put("/bill/list", BillListAction.class);
+        actions.put("/bill/delete", BillDeleteAction.class);
+
     }
 
 

@@ -31,7 +31,7 @@ ${sessionScope.currentUser.role}
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
                        href="/user/list.html">Users</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/bills">Bills</a>
+                       href="/bill/list.html">Bills</a>
 
 
                     <a style="float: right; font-size: larger; font-family: sans-serif; text-decoration: none; margin-right: 5px"
@@ -46,9 +46,9 @@ ${sessionScope.currentUser.role}
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 10px"
                        href="/main.html">Main</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/useredit">Edit profile</a>
+                       href="/user/edit.html?id=${currentUser.id}">Edit profile</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/orders">My orders</a>
+                       href="/order/list.html">My orders</a>
 
                     <a style="float: right; font-size: larger; font-family: sans-serif; text-decoration: none; margin-right: 5px"
                        href="/logout.html">Log out</a>

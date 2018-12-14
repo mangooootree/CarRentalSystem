@@ -11,7 +11,7 @@ public interface UserService {
 
     List<User> findAll() throws ServiceException;
 
-    void save(User user) throws ServiceException;
+    Long save(User user) throws ServiceException;
 
     void update(User user) throws ServiceException;
 

@@ -1,9 +1,7 @@
 package service;
 
-import dao.CarDao;
 import dao.DaoException;
 import dao.OrderDao;
-import dao.UserDao;
 import domain.Car;
 import domain.Order;
 import domain.User;
@@ -12,13 +10,13 @@ import java.util.List;
 
 public class OrderServiceImpl implements OrderService{
     private OrderDao orderDao;
-    private UserDao userDao;
-    private CarDao carDao;
+    private UserService userService;
+    private CarService carService;
 
-    public OrderServiceImpl(OrderDao orderDao, UserDao userDao, CarDao carDao) {
+    public OrderServiceImpl(OrderDao orderDao, UserService userService, CarService carService) {
         this.orderDao = orderDao;
-        this.userDao = userDao;
-        this.carDao = carDao;
+        this.userService = userService;
+        this.carService = carService;
     }
 
     public OrderServiceImpl() {
@@ -29,8 +27,8 @@ public class OrderServiceImpl implements OrderService{
     public Order findById(Long id) throws ServiceException {
         try {
             Order order = orderDao.read(id);
-            Car car = carDao.read(order.getCar().getId());
-            User user = userDao.read(order.getUser().getId());
+            Car car = carService.findById(order.getCar().getId());
+            User user = userService.findById(order.getUser().getId());
             order.setCar(car);
             order.setUser(user);
             return order;
@@ -45,8 +43,8 @@ public class OrderServiceImpl implements OrderService{
         try {
             List<Order> orders = orderDao.getAllOrders();
             for (Order order: orders){
-                Car car = carDao.read(order.getCar().getId());
-                User user = userDao.read(order.getUser().getId());
+                Car car = carService.findById(order.getCar().getId());
+                User user = userService.findById(order.getUser().getId());
                 order.setCar(car);
                 order.setUser(user);
             }
