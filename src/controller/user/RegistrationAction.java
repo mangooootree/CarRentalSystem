@@ -28,7 +28,7 @@ public class RegistrationAction extends Action {
 
                 UserService userService = getServiceFactory().getUserService();
                 if (userService.checkLogin(login)) {
-                    return new Forward("/registration.html?message=Этот логин уже занят");
+                    return new Forward("/registration.html");
                 }
                 User user = new User();
                 user.setFirstname(firstName);

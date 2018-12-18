@@ -38,8 +38,8 @@ public class CarDaoImpl extends BaseDaoImpl implements CarDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
-                resultSet.close();
+                if (statement != null){ statement.close();}
+                if (resultSet != null){resultSet.close();}
             } catch (Exception e) {
             }
         }
@@ -69,8 +69,8 @@ public class CarDaoImpl extends BaseDaoImpl implements CarDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
-                resultSet.close();
+                if (statement != null){ statement.close();}
+                if (resultSet != null){resultSet.close();}
             } catch (Exception e) {
             }
         }
@@ -101,8 +101,8 @@ public class CarDaoImpl extends BaseDaoImpl implements CarDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
-                resultSet.close();
+                if (statement != null){ statement.close();}
+                if (resultSet != null){resultSet.close();}
             } catch (Exception e) {
             }
         }
@@ -126,7 +126,7 @@ public class CarDaoImpl extends BaseDaoImpl implements CarDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }
@@ -144,7 +144,7 @@ public class CarDaoImpl extends BaseDaoImpl implements CarDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }

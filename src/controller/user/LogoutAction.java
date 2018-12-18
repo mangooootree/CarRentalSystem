@@ -16,6 +16,7 @@ public class LogoutAction extends Action {
         if(session != null) {
             session.invalidate();
         }
+
         return new Forward("/main.html");
     }
 }

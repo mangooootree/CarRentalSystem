@@ -9,7 +9,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 
 @MultipartConfig
@@ -42,8 +41,7 @@ public class DispatcherServlet extends HttpServlet {
         String url = req.getRequestURI();
         String context = req.getContextPath();
 
-        req.setAttribute("imgPath", getServletContext().getRealPath("/img/"));
-        req.setAttribute("tempDir", (File)getServletContext().getAttribute("javax.servlet.context.tempdir"));
+        //req.setAttribute("tempDir", (File)getServletContext().getAttribute("javax.servlet.context.tempdir"));
 
         int postfixIndex = url.lastIndexOf(".html");
         if(postfixIndex != -1) {

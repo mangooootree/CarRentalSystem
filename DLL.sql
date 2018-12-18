@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `Order` (
   `isAccepted`    boolean NOT NULL,
   `reviewed`      boolean NOT NULL,
   `comments`   varchar(255),
+  `expireDate`      DATE NOT NULL,
   PRIMARY KEY(`id`)
 );
 

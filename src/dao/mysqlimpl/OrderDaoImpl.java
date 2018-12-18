@@ -14,7 +14,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getAllOrders() throws DaoException {
-        String sql = "SELECT `id`, `user_id`, `car_id`, `date`, `amountOfDays`, `totalCost`, `isPaid`, `reviewed`, `isAccepted`, `comments` FROM `order`";
+        String sql = "SELECT `id`, `user_id`, `car_id`, `date`, `amountOfDays`, `totalCost`, `isPaid`, `reviewed`, `isAccepted`, `comments`, `expireDate` FROM `order`";
         Statement statement = null;
         ResultSet resultSet = null;
         try {
@@ -35,6 +35,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
                 order.setReviewed(resultSet.getBoolean("reviewed"));
                 order.setAccepted(resultSet.getBoolean("isAccepted"));
                 order.setComments(resultSet.getString("comments"));
+                order.setExpireDate(new java.util.Date(resultSet.getTimestamp("expireDate").getTime()));
                 orders.add(order);
             }
             return orders;
@@ -42,8 +43,8 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
-                resultSet.close();
+                if (statement != null){ statement.close();}
+                if (resultSet != null){resultSet.close();}
             } catch (Exception e) {
             }
         }
@@ -51,7 +52,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     @Override
     public Long create(Order order) throws DaoException {
-        String sql = "INSERT INTO `order` (`user_id`, `car_id`, `date`, `amountOfDays`, `totalCost`, `isPaid`, `reviewed`, `isAccepted`, `comments`) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO `order` (`user_id`, `car_id`, `date`, `amountOfDays`, `totalCost`, `isPaid`, `reviewed`, `isAccepted`, `comments`, `expireDate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -65,6 +66,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             statement.setBoolean(7, order.isReviewed());
             statement.setBoolean(8, order.isAccepted());
             statement.setString(9, order.getComments());
+            statement.setTimestamp(10, new Timestamp(order.getExpireDate().getTime()));
             statement.executeUpdate();
             Long id = null;
             resultSet = statement.getGeneratedKeys();
@@ -76,8 +78,8 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
-                resultSet.close();
+                if (statement != null){ statement.close();}
+                if (resultSet != null){resultSet.close();}
             } catch (Exception e) {
             }
         }
@@ -85,7 +87,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     @Override
     public Order read(Long id) throws DaoException {
-        String sql = "SELECT `id`,`user_id`, `car_id`, `date`, `amountOfDays`, `totalCost`, `isPaid`, `reviewed`, `isAccepted`, `comments` FROM `order` WHERE `id` = ?";
+        String sql = "SELECT `id`,`user_id`, `car_id`, `date`, `amountOfDays`, `totalCost`, `isPaid`, `reviewed`, `isAccepted`, `comments`, `expireDate` FROM `order` WHERE `id` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -107,14 +109,15 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
                 order.setReviewed(resultSet.getBoolean("reviewed"));
                 order.setAccepted(resultSet.getBoolean("isAccepted"));
                 order.setComments(resultSet.getString("comments"));
+                order.setExpireDate(new java.util.Date(resultSet.getTimestamp("expireDate").getTime()));
             }
             return order;
         } catch (SQLException e) {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
-                resultSet.close();
+                if (statement != null){ statement.close();}
+                if (resultSet != null){resultSet.close();}
             } catch (Exception e) {
             }
         }
@@ -122,7 +125,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     @Override
     public void update(Order order) throws DaoException {
-        String sql = "UPDATE `order` SET `user_id` = ?, `car_id` = ?, `date` = ?, `amountOfDays` = ?, `totalCost` = ?, `isPaid` = ?, `isAccepted` = ?, `reviewed` = ?, `comments`=? WHERE `id` = ?";
+        String sql = "UPDATE `order` SET `user_id` = ?, `car_id` = ?, `date` = ?, `amountOfDays` = ?, `totalCost` = ?, `isPaid` = ?, `isAccepted` = ?, `reviewed` = ?, `comments`=?, `expireDate` = ? WHERE `id` = ?";
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(sql);
@@ -135,13 +138,14 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             statement.setBoolean(7, order.isAccepted());
             statement.setBoolean(8, order.isReviewed());
             statement.setString(9, order.getComments());
-            statement.setLong(10, order.getId());
+            statement.setTimestamp(10, new Timestamp(order.getExpireDate().getTime()));
+            statement.setLong(11, order.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }
@@ -160,7 +164,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }
@@ -179,7 +183,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }
@@ -199,7 +203,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }
@@ -218,7 +222,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }
@@ -237,7 +241,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }
@@ -256,7 +260,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             throw new DaoException();
         } finally {
             try {
-                statement.close();
+                if (statement != null){ statement.close();}
             } catch (Exception e) {
             }
         }

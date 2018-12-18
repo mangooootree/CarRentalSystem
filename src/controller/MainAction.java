@@ -17,12 +17,6 @@ public class MainAction extends Action {
     @Override
     public Forward execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        User user = (User) req.getSession().getAttribute("currentUser");
-        if (user == null) {
-            user = new User();
-            user.setRole(Role.GUEST);
-            req.getSession().setAttribute("currentUser", user);
-        }
         try {
             CarService carService = getServiceFactory().getCarService();
             List<Car> cars = carService.findAll();

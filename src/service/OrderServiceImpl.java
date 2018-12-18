@@ -8,7 +8,7 @@ import domain.User;
 
 import java.util.List;
 
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     private UserService userService;
     private CarService carService;
@@ -32,8 +32,7 @@ public class OrderServiceImpl implements OrderService{
             order.setCar(car);
             order.setUser(user);
             return order;
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -42,15 +41,14 @@ public class OrderServiceImpl implements OrderService{
     public List<Order> findAll() throws ServiceException {
         try {
             List<Order> orders = orderDao.getAllOrders();
-            for (Order order: orders){
+            for (Order order : orders) {
                 Car car = carService.findById(order.getCar().getId());
                 User user = userService.findById(order.getUser().getId());
                 order.setCar(car);
                 order.setUser(user);
             }
             return orders;
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -59,8 +57,7 @@ public class OrderServiceImpl implements OrderService{
     public Long save(Order order) throws ServiceException {
         try {
             return orderDao.create(order);
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -69,8 +66,7 @@ public class OrderServiceImpl implements OrderService{
     public void delete(Long id) throws ServiceException {
         try {
             orderDao.delete(id);
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -79,8 +75,7 @@ public class OrderServiceImpl implements OrderService{
     public void update(Order order) throws ServiceException {
         try {
             orderDao.update(order);
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -89,8 +84,7 @@ public class OrderServiceImpl implements OrderService{
     public void setConfirmed(Order order) throws ServiceException {
         try {
             orderDao.confirm(order);
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -99,8 +93,7 @@ public class OrderServiceImpl implements OrderService{
     public void setRejected(Order order) throws ServiceException {
         try {
             orderDao.reject(order);
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -109,8 +102,7 @@ public class OrderServiceImpl implements OrderService{
     public void setPaid(Order order) throws ServiceException {
         try {
             orderDao.setPaid(order);
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -119,8 +111,7 @@ public class OrderServiceImpl implements OrderService{
     public void setUnPaid(Order order) throws ServiceException {
         try {
             orderDao.setUnPaid(order);
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }
@@ -129,8 +120,7 @@ public class OrderServiceImpl implements OrderService{
     public void SetReviewed(Order order) throws ServiceException {
         try {
             orderDao.setReviewed(order);
-        }
-        catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException();
         }
     }

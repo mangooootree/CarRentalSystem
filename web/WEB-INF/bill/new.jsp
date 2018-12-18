@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="../common/header.jsp" %>
 
 <table align="center" border="1" cellpadding="20">
@@ -18,7 +19,7 @@
                 Цвет: ${order.car.color}<br>
                 Госномер: ${order.car.licencePlate}<br>
                 <br>
-                <b>Дата заказа: </b>${order.date}<br>
+                <b>Дата заказа: </b><fmt:formatDate pattern="dd.MM.yyyy" value="${order.date}"/><br>
             </div>
 
 

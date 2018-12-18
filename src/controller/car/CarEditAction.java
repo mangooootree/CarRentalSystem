@@ -1,9 +1,10 @@
-package controller.user;
+package controller.car;
 
 import controller.Action;
 import controller.Forward;
+import domain.Car;
+import service.CarService;
 import service.ServiceException;
-import service.UserService;
 import utils.FactoryException;
 
 import javax.servlet.ServletException;
@@ -11,23 +12,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+public class CarEditAction extends Action {
 
-public class UserDeleteAction extends Action {
     @Override
     public Forward execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = null;
         try {
             id = Long.parseLong(req.getParameter("id"));
-        } catch(NumberFormatException e) {}
+        } catch (NumberFormatException e) {
+        }
 
-        if(id != null) {
+        if (id != null) {
             try {
-                UserService service = getServiceFactory().getUserService();
-                service.delete(id);
-            } catch(FactoryException | ServiceException e) {
+                CarService carService = getServiceFactory().getCarService();
+                Car car = carService.findById(id);
+                req.setAttribute("car", car);
+            } catch (FactoryException | ServiceException e) {
                 throw new ServletException(e);
             }
         }
-        return new Forward("/user/list.html");
+        return null;
     }
 }

@@ -22,8 +22,8 @@ public class OrderListAction extends Action {
         try {
             OrderService orderService = getServiceFactory().getOrderService();
             User user = (User) req.getSession().getAttribute("currentUser");
-
             List<Order> orders = orderService.findAll();
+
             if (user.getRole() == Role.ADMIN) {
                 req.setAttribute("orders", orders);
             }

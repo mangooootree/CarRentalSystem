@@ -39,7 +39,10 @@ public class BillServiceImpl implements BillService {
             List<Bill> bills = billDao.getAllBills();
             for (Bill bill: bills){
                 Order order = orderService.findById(bill.getOrder().getId());
-                bill.setOrder(order);
+                if (order != null){
+                    bill.setOrder(order);
+                }
+
             }
             return bills;
         }

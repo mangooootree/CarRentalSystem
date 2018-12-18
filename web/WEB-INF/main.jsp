@@ -8,10 +8,10 @@
 
         <c:choose>
             <c:when test="${car.automaticTransmission}">
-                <c:set var="gearbox" value="Automatic"/>
+                <c:set var="gearbox" value="Автомат"/>
             </c:when>
             <c:otherwise>
-                <c:set var="gearbox" value="Manual"/>
+                <c:set var="gearbox" value="Ручная"/>
             </c:otherwise>
         </c:choose>
         <tr>
@@ -21,13 +21,30 @@
                         Цвет: ${car.color} <br>
                         Гос. номер: ${car.licencePlate} <br>
                         КПП: ${gearbox} <br><br>
+                    Статус:
+                    <c:choose>
+                        <c:when test="${car.ordered == 'true'}">
+                            Занят
+                        </c:when>
+                            <c:when test="${car.ordered == 'false'}">
+                                Свободен
+                            </c:when>
+                    </c:choose>
+                    <br>
                     Цена за сутки: <b>${car.price}</b>
                 </div>
                 <br>
-                <a href="/order/new.html?id=${car.id}">ORDER NOW!</a>
+                <c:choose>
+                    <c:when test="${car.ordered == 'true'}">
+
+                    </c:when>
+                    <c:when test="${car.ordered == 'false'}">
+                        <a href="/order/new.html?id=${car.id}">Заказать сейчас!</a>
+                    </c:when>
+                </c:choose>
             </td>
             <td>
-                <img src="../img/${car.id}.jpg" height="200" width="300" align="middle" border="1" style="border-color: #eef6fd ">
+                <img src="../img/${car.id}.jpg" width="300" align="middle" border="1" style="border-color: #eef6fd ">
             </td>
 
         </tr>

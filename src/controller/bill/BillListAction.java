@@ -22,8 +22,8 @@ public class BillListAction extends Action {
             if (!bills.isEmpty()) {
                 req.setAttribute("bills", bills);
             }
-                return null;
-        } catch(FactoryException | ServiceException e) {
+            return null;
+        } catch (FactoryException | ServiceException e) {
             throw new ServletException(e);
         }
     }

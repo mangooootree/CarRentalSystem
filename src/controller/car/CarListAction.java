@@ -21,7 +21,7 @@ public class CarListAction extends Action {
             List<Car> cars = carService.findAll();
             req.setAttribute("cars", cars);
             return null;
-        } catch(FactoryException | ServiceException e) {
+        } catch (FactoryException | ServiceException e) {
             throw new ServletException(e);
         }
     }

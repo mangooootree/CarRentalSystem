@@ -45,7 +45,7 @@
                     Госномер: ${bill.order.car.licencePlate}<br>
                 </td>
                 <td>
-                    <fmt:formatDate pattern="dd.MM.yyyy, HH:mm" value="${bill.order.date}"/>
+                    <fmt:formatDate pattern="dd.MM.yyyy" value="${bill.order.date}"/>
                 </td>
                 <td>
                         ${bill.price}

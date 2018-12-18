@@ -4,7 +4,6 @@ import controller.Action;
 import controller.Forward;
 import domain.Bill;
 import domain.Order;
-import domain.User;
 import service.BillService;
 import service.OrderService;
 import service.ServiceException;
@@ -26,15 +25,13 @@ public class BillSaveAction extends Action {
             orderId = Long.parseLong(req.getParameter("orderId"));
             cost = Long.parseLong(req.getParameter("cost"));
         } catch (NumberFormatException e) {
-            e.printStackTrace();
         }
+
         String damage = req.getParameter("damage");
         try {
             OrderService orderService = getServiceFactory().getOrderService();
             Order order = orderService.findById(orderId);
             req.setAttribute("order", order);
-            User user = order.getUser();
-
 
             if (cost != null && damage != null) {
                 BillService billService = getServiceFactory().getBillService();
@@ -44,22 +41,22 @@ public class BillSaveAction extends Action {
                 bill.setPrice(cost);
                 bill.setPaid(false);
                 billService.save(bill);
+
                 req.setAttribute("message", "Счет сохранен.");
                 req.setAttribute("cost", req.getParameter("cost"));
                 req.setAttribute("damage", damage);
                 req.setAttribute("disabled", "disabled");
-                return new Forward("/bill/new",false);
+                return new Forward("/bill/new", false);
             } else {
                 req.setAttribute("message", "Что-то пошло не так. Убедитесь, что вы заполнили все поля формы.");
                 req.setAttribute("cost", req.getParameter("cost"));
                 req.setAttribute("damage", damage);
-                return new Forward("/bill/new",false);
+                return new Forward("/bill/new", false);
             }
 
         } catch (FactoryException | ServiceException e) {
-            e.printStackTrace();
+            throw new ServletException();
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }

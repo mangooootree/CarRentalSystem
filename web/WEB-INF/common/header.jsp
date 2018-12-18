@@ -6,54 +6,53 @@
     <meta charset="utf-8">
     <title>Car Rental System</title>
     <div style="background-color: #e1e9f0; padding: 10px 20px">
-${sessionScope.currentUser.role}
         <div style="horiz-align: right; vertical-align: bottom; display: inline; margin: 10px 10px">
             <h1 style="font-size: x-large; font-family: sans-serif; vertical-align: bottom; display: inline; margin-right: 30px">
                 Car Rental Service</h1>
             <c:choose>
                 <c:when test="${currentUser.role == 'GUEST'}">
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/main.html">Main</a>
+                       href="/main.html">Главная</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/login.html">Login</a>
+                       href="/login.html">Войти</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/registration.html">Register</a>
+                       href="/registration.html">Регистрация</a>
                 </c:when>
 
                 <c:when test="${currentUser.role == 'ADMIN'}">
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/main.html">Main</a>
+                       href="/main.html">Главная</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/car/list.html">Cars</a>
+                       href="/car/list.html">Автомобили</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/order/list.html">Orders</a>
+                       href="/order/list.html">Заказы</a>
                     (${newOrdersAmount})
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/user/list.html">Users</a>
+                       href="/user/list.html">Пользователи</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/bill/list.html">Bills</a>
+                       href="/bill/list.html">Счета</a>
 
 
                     <a style="float: right; font-size: larger; font-family: sans-serif; text-decoration: none; margin-right: 5px"
-                       href="/logout.html">Log out</a>
+                       href="/logout.html">Выйти</a>
                     <div style="float: right; font-size: larger; display: inline; font-family: sans-serif; margin-right: 20px">
-                            ${currentUser.login}</div>
+                            ${currentUser.firstname} ${currentUser.lastname}</div>
                     <div style="float: right; font-size: larger; display: inline; font-family: sans-serif; margin-right: 20px">
                             ${currentUser.role.name}</div>
                 </c:when>
 
                 <c:when test="${currentUser.role == 'CLIENT'}">
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 10px"
-                       href="/main.html">Main</a>
+                       href="/main.html">Главная</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/user/edit.html?id=${currentUser.id}">Edit profile</a>
+                       href="/user/edit.html?id=${currentUser.id}">Редактировать профиль</a>
                     <a style="font-family: sans-serif; font-size: larger; text-decoration: none; margin-left: 15px"
-                       href="/order/list.html">My orders</a>
+                       href="/order/list.html">Мои заказы</a>
 
                     <a style="float: right; font-size: larger; font-family: sans-serif; text-decoration: none; margin-right: 5px"
-                       href="/logout.html">Log out</a>
+                       href="/logout.html">Выйти</a>
                     <div style="float: right; font-size: larger; display: inline; font-family: sans-serif; margin-right: 20px">
-                            ${currentUser.login}</div>
+                            ${currentUser.firstname} ${currentUser.lastname}</div>
                     <div style="float: right; font-size: larger; display: inline; font-family: sans-serif; margin-right: 20px">
                             ${currentUser.role.name}</div>
                 </c:when>

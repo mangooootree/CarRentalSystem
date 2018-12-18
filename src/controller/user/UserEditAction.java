@@ -2,6 +2,7 @@ package controller.user;
 
 import controller.Action;
 import controller.Forward;
+import domain.Role;
 import domain.User;
 import service.ServiceException;
 import service.UserService;
@@ -23,9 +24,19 @@ public class UserEditAction extends Action {
         }
         if (id != null) {
             try {
-                UserService service = getServiceFactory().getUserService();
-                User user = service.findById(id);
-                req.setAttribute("user", user);
+                UserService userService = getServiceFactory().getUserService();
+                User user = userService.findById(id);
+
+                //check if not client trying to modify other user
+                if (user != null) {
+                    User currentUser = (User) req.getSession().getAttribute("currentUser");
+                    if (currentUser != null) {
+                        if (currentUser.getRole() != Role.ADMIN && currentUser.getId() != user.getId()) {
+                            return new Forward("/user/edit.html?id=" + currentUser.getId());
+                        }
+                    }
+                    req.setAttribute("user", user);
+                }
 
             } catch (FactoryException | ServiceException e) {
                 throw new ServletException(e);

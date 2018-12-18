@@ -28,7 +28,7 @@ public class LoginAction extends Action {
                     session.setAttribute("currentUser", user);
                     return new Forward("/main.html");
                 } else {
-                    return new Forward("/login.html?message=incorrect login or password");
+                    return new Forward("/login.html");
                 }
             } catch(FactoryException | ServiceException e) {
                 throw new ServletException(e);

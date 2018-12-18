@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@include file="../common/header.jsp" %>
 
 <table align="center" border="1" cellpadding="10">
@@ -43,14 +43,16 @@
                     ${order.user.firstname} ${order.user.lastname} <br> ${order.user.passport}
             </td>
             <td>
-                    ${order.car.model} ${order.car.licencePlate} <br> ${order.car.color} ${order.car.automaticTransmission ? 'АКПП':'МКПП'}
+                    ${order.car.model} ${order.car.licencePlate}
+                <br> ${order.car.color} ${order.car.automaticTransmission ? 'АКПП':'МКПП'}
             </td>
-            <td><div style="font-size: small">
-                Дата заказа:<br>
-                <fmt:formatDate pattern="dd.MM.yyyy, HH:mm" value="${order.date}"/> <br><br>
-                Истекает:<br>
-                <fmt:formatDate pattern="dd.MM.yyyy, HH:mm" value="${order.date}"/>
-                 </div>
+            <td>
+                <div style="font-size: small">
+                    Дата заказа:<br>
+                    <fmt:formatDate pattern="dd.MM.yyyy" value="${order.date}"/> <br><br>
+                    Истекает:<br>
+                    <fmt:formatDate pattern="dd.MM.yyyy" value="${order.expireDate}"/>
+                </div>
             </td>
             <td>
                     ${order.amountOfDays}
@@ -63,25 +65,25 @@
             </td>
             <td>
                 <c:choose>
-                        <c:when test="${order.reviewed == 'true'}">
-                                ${order.accepted ? 'Одобрен':'Отклонен'}
-                        </c:when>
-                        <c:otherwise>
-                            На рассмотрении
-                        </c:otherwise>
-                    </c:choose>
+                    <c:when test="${order.reviewed == 'true'}">
+                        ${order.accepted ? 'Одобрен':'Отклонен'}
+                    </c:when>
+                    <c:otherwise>
+                        На рассмотрении
+                    </c:otherwise>
+                </c:choose>
             </td>
             <td width="200px">
-                <div style="padding-left: 10px; width: inherit; word-break: break-all" >${order.comments} <br><br></div>
-                <c:choose>
-                <c:when test="${currentUser.role == 'ADMIN'}">
+                <div style="padding-left: 10px; width: inherit; word-break: break-all">${order.comments} <br><br></div>
+                    <c:choose>
+                        <c:when test="${currentUser.role == 'ADMIN'}">
                             <form action="/order/setComment.html?id=${order.id}" method="post" style="width: 200px">
                                 <input type="text" value="" name="comment" placeholder="Введите комментарий">
                                 <input type="hidden" name="id" value="${order.id}">
                                 <button type="submit">Добавить</button>
                             </form>
-                </c:when>
-                </c:choose>
+                        </c:when>
+                    </c:choose>
             </td>
 
             <c:if test="${currentUser.role == 'ADMIN'}">
@@ -90,6 +92,7 @@
                     <a href="/order/reject.html?id=${order.id}">Отклонить</a><br>
                     <a href="/order/setPaid.html?id=${order.id}">Оплачен</a><br>
                     <a href="/order/setUnPaid.html?id=${order.id}">Не оплачен</a><br>
+                    <a href="/order/close.html?id=${order.id}">Возврат авто</a><br>
                     <a href="/bill/new.html?id=${order.id}">Выставить счет</a><br>
                     <a href="/order/delete.html?id=${order.id}">Удалить</a><br>
                 </td>
@@ -97,4 +100,5 @@
         </tr>
     </c:forEach>
 </table>
+
 <%@include file="../common/footer.jsp" %>

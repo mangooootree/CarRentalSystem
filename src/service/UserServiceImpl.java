@@ -61,10 +61,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public void changePassword(Long userId, String oldPassword, String newPassword) {
-        //todo changePassword
-    }
 
     @Override
     public void delete(Long id) throws ServiceException {

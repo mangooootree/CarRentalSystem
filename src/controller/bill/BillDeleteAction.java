@@ -18,12 +18,14 @@ public class BillDeleteAction extends Action {
         Long id = null;
         try {
             id = Long.parseLong(req.getParameter("id"));
-        } catch(NumberFormatException e) {}
-        if(id != null) {
+        } catch (NumberFormatException e) {
+        }
+
+        if (id != null) {
             try {
                 BillService billService = getServiceFactory().getBillService();
                 billService.delete(id);
-            } catch(FactoryException | ServiceException e) {
+            } catch (FactoryException | ServiceException e) {
                 throw new ServletException(e);
             }
         }

@@ -35,10 +35,10 @@ public class UserUpdateAction extends Action {
         } catch (NumberFormatException e) {
         }
 
+
         User user = null;
         UserService userService = null;
         try {
-
             userService = getServiceFactory().getUserService();
             user = userService.findById(id);
             req.setAttribute("user", user);

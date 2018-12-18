@@ -1,5 +1,6 @@
 package domain;
 
+
 import java.util.Date;
 
 public class Order extends Entity {
@@ -10,6 +11,17 @@ public class Order extends Entity {
     private long totalCost;
     private boolean paid;
     private boolean accepted;
+    private boolean reviewed;
+    private String comments;
+    private Date expireDate;
+
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
 
     public boolean isReviewed() {
         return reviewed;
@@ -18,10 +30,6 @@ public class Order extends Entity {
     public void setReviewed(boolean reviewed) {
         this.reviewed = reviewed;
     }
-
-    private boolean reviewed;
-    private String comments;
-
 
     public User getUser() {
         return user;

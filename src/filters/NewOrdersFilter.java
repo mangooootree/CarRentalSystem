@@ -1,5 +1,6 @@
 package filters;
 
+import domain.Order;
 import domain.Role;
 import domain.User;
 import service.OrderService;
@@ -10,6 +11,7 @@ import utils.ServiceFactory;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 public class NewOrdersFilter implements Filter {
 
@@ -20,12 +22,17 @@ public class NewOrdersFilter implements Filter {
         if (user != null && user.getRole() == Role.ADMIN) {
             try (ServiceFactory serviceFactory = new MainServiceFactoryImpl()) {
                 OrderService orderService = serviceFactory.getOrderService();
-                Long newOrdersAmount = orderService.findAll().stream().filter(order -> order.isReviewed() == false).count();
-                request.setAttribute("newOrdersAmount", newOrdersAmount);
+                List<Order> orders = orderService.findAll();
+                if (!orders.isEmpty()) {
+                    Long newOrdersAmount = orders.stream().filter(order -> order.isReviewed() == false).count();
+                    request.setAttribute("newOrdersAmount", newOrdersAmount);
+                }
+                else {
+                    request.setAttribute("newOrdersAmount", 0);
+                }
             } catch (FactoryException e) {
-                e.printStackTrace();
+                throw new ServletException();
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
