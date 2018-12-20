@@ -1,6 +1,5 @@
 package controller;
 
-import utils.Connector;
 import utils.MainServiceFactoryImpl;
 import utils.ServiceFactory;
 
@@ -15,12 +14,6 @@ import java.io.IOException;
 public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
-        try {
-            Connector.init();
-        }
-        catch (ClassNotFoundException e){
-        }
-
     }
 
     @Override

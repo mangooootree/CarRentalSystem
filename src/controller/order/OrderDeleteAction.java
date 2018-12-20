@@ -36,8 +36,10 @@ public class OrderDeleteAction extends Action {
 
                 CarService carService = getServiceFactory().getCarService();
                 Car car = order.getCar();
-                car.setOrdered(false);
-                carService.update(car);
+                if (car != null) {
+                    car.setOrdered(false);
+                    carService.update(car);
+                }
 
                 BillService billService = getServiceFactory().getBillService();
                 List<Bill> allBills = billService.findAll();

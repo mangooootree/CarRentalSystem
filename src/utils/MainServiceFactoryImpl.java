@@ -8,6 +8,8 @@ import dao.mysqlimpl.BillDaoImpl;
 import dao.mysqlimpl.CarDaoImpl;
 import dao.mysqlimpl.OrderDaoImpl;
 import dao.mysqlimpl.UserDaoImpl;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import service.*;
 
 import java.sql.Connection;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 
 public class MainServiceFactoryImpl implements ServiceFactory {
     private Connection connection;
+    private static final Logger log = LogManager.getLogger(MainServiceFactoryImpl.class.getName());
 
     @Override
     public UserService getUserService() throws FactoryException {
@@ -78,6 +81,7 @@ public class MainServiceFactoryImpl implements ServiceFactory {
     @Override
     public void close() throws SQLException {
         if (connection != null) {
+            log.debug("Realizing connection");
             ConnectionPool.getInstance().freeConnection(connection);
             connection = null;
         }

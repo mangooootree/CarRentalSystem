@@ -1,56 +1,56 @@
 package utils;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
+    private static final Logger log = LogManager.getLogger(ConnectionPool.class.getName());
     private int maxSize;
-    private Queue<Connection> freeConnections = new ConcurrentLinkedQueue<>();
-    private Set<Connection> usedConnections = new ConcurrentSkipListSet<>();
+    private BlockingQueue<Connection> connections;
 
     private ConnectionPool() {
     }
 
     public Connection getConnection() throws PoolException {
         Connection connection = null;
-        while (connection == null) {
-            try {
-                connection = freeConnections.poll();
-                if (connection != null) {
-                    close(connection);
-                    connection = null;
-                } else if (maxSize == 0 || usedConnections.size() < maxSize) {
-                    connection = establishConnection();
-                } else {
-                    throw new PoolException("maxSize exceeded");
-                }
-            } catch (SQLException e) {
-                throw new PoolException(e);
+        try {
+            connection = connections.take();
+            if (connection == null) {
+                throw new PoolException("There are no more available connections to the database");
             }
+        } catch (InterruptedException ex) {
+            log.fatal("Can't establish connection to the db. " + ex);
         }
-        usedConnections.add(connection);
+        log.debug("Getting connection. Remains " + connections.size());
         return connection;
     }
 
     void freeConnection(Connection connection) throws SQLException {
-        usedConnections.remove(connection);
-        freeConnections.add(connection);
+        try {
+            if (connection != null) {
+                connections.put(connection);
+            }
+        } catch (InterruptedException ex) {
+            log.error("Exception while returning the connection. " + ex);
+        }
     }
 
     public void init(int minSize, int maxSize) throws PoolException {
+        connections = new ArrayBlockingQueue<>(maxSize);
         try {
             if (minSize <= maxSize) {
                 for (int i = 0; i < minSize; i++) {
-                    freeConnections.add(establishConnection());
+                    connections.add(establishConnection());
+                    log.debug("Adding connection");
                 }
                 this.maxSize = maxSize;
-            } else {
-                throw new PoolException("minSize is to be less or equal maxSize");
             }
+            log.debug("Pool is full");
         } catch (SQLException e) {
             throw new PoolException(e);
         }
@@ -58,14 +58,15 @@ public class ConnectionPool {
 
 
     public void destroy() {
-        synchronized (usedConnections) {
-            synchronized (freeConnections) {
-                usedConnections.addAll(freeConnections);
-                freeConnections.clear();
-                for (Connection connection : usedConnections) {
-                    close(connection);
-                }
-                usedConnections.clear();
+        synchronized (connections) {
+            synchronized (connections) {
+                connections.stream().filter((connection) -> (connection != null)).forEach((connection) -> {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        log.error("Can't close connection (" + connection + "): ", e);
+                    }
+                });
             }
         }
     }
@@ -74,14 +75,6 @@ public class ConnectionPool {
         return new PooledConnection(Connector.getConnection());
     }
 
-    private void close(Connection connection) {
-            synchronized (connection) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                }
-            }
-    }
 
     private static ConnectionPool instance = new ConnectionPool();
 

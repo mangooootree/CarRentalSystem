@@ -49,4 +49,8 @@
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
 
+    <listener>
+        <listener-class>listener.ContextListener</listener-class>
+    </listener>
+
 </web-app>

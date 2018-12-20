@@ -39,7 +39,7 @@
                     ${user.login}
             </td>
             <td>
-                <fmt:message key="${currentUser.role.name}"/>
+                <fmt:message key="${user.role.name}"/>
             </td>
             <td>
                 <a href="/user/edit.html?id=${user.id}"><fmt:message key="user.edit"/></a><br>
