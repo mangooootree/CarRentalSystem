@@ -6,19 +6,19 @@
 
     <tr>
         <th>
-            Имя
+            <fmt:message key="user.firstname"/>
         </th>
         <th>
-            Фамилия
+            <fmt:message key="user.lastname"/>
         </th>
         <th>
-            Паспорт
+            <fmt:message key="user.password"/>
         </th>
         <th>
-            Логин
+            <fmt:message key="user.login"/>
         </th>
         <th>
-            Роль
+            <fmt:message key="user.role"/>
         </th>
         <th>
 
@@ -39,11 +39,11 @@
                     ${user.login}
             </td>
             <td>
-                    ${user.role.name}
+                <fmt:message key="${currentUser.role.name}"/>
             </td>
             <td>
-                    <a href="/user/edit.html?id=${user.id}">Редактировать</a><br>
-                    <a href="/user/delete.html?id=${user.id}">Удалить</a>
+                <a href="/user/edit.html?id=${user.id}"><fmt:message key="user.edit"/></a><br>
+                <a href="/user/delete.html?id=${user.id}"><fmt:message key="user.delete"/></a>
             </td>
         </tr>
     </c:forEach>

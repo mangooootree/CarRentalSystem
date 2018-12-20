@@ -42,13 +42,13 @@ public class BillSaveAction extends Action {
                 bill.setPaid(false);
                 billService.save(bill);
 
-                req.setAttribute("message", "Счет сохранен.");
+                req.setAttribute("billSaved", "bill.saved");
                 req.setAttribute("cost", req.getParameter("cost"));
                 req.setAttribute("damage", damage);
                 req.setAttribute("disabled", "disabled");
                 return new Forward("/bill/new", false);
             } else {
-                req.setAttribute("message", "Что-то пошло не так. Убедитесь, что вы заполнили все поля формы.");
+                req.setAttribute("billSaved", "bill.unsaved");
                 req.setAttribute("cost", req.getParameter("cost"));
                 req.setAttribute("damage", damage);
                 return new Forward("/bill/new", false);

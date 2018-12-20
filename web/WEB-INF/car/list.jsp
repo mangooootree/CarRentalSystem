@@ -5,26 +5,26 @@
 
 <table border="1" cellpadding="10">
     <td style="border: 0px">
-        <a href="/car/new.html">Добавить автомобиль</a>
+        <a href="/car/new.html"><fmt:message key="car.new"/></a>
     </td>
     <tr>
         <th>
-            Модель
+            <fmt:message key="car.model"/>
         </th>
         <th>
-            Цвет
+            <fmt:message key="car.color"/>
         </th>
         <th>
-            Гос. номер
+            <fmt:message key="car.licencePlate"/>
         </th>
         <th>
-            Тип КПП
+            <fmt:message key="car.gearbox"/>
         </th>
         <th>
-            Заказан/свободен
+            <fmt:message key="car.status.ordered"/>/<fmt:message key="car.status.free"/>
         </th>
         <th>
-            Цена в сутки
+            <fmt:message key="car.price"/>
         </th>
         <th>
 
@@ -42,17 +42,31 @@
                     ${car.licencePlate}
             </td>
             <td>
-                    ${car.automaticTransmission ? 'АКПП':'МКПП'}
+                <c:choose>
+                    <c:when test="${car.automaticTransmission == 'true'}">
+                        <fmt:message key="car.gearbox.auto"/>
+                    </c:when>
+                    <c:when test="${car.automaticTransmission == 'false'}">
+                        <fmt:message key="car.gearbox.manual"/>
+                    </c:when>
+                </c:choose>
             </td>
             <td>
-                    ${car.ordered ? 'Заказан':'Свободен'}
+                <c:choose>
+                    <c:when test="${car.ordered == 'true'}">
+                        <fmt:message key="car.status.ordered"/>
+                    </c:when>
+                    <c:when test="${car.ordered == 'false'}">
+                        <fmt:message key="car.status.free"/>
+                    </c:when>
+                </c:choose>
             </td>
             <td>
                     ${car.price}
             </td>
             <td>
-                <a href="/car/delete.html?id=${car.id}">Удалить</a><br>
-                <a href="/car/edit.html?id=${car.id}">Редактировать</a><br>
+                <a href="/car/delete.html?id=${car.id}"><fmt:message key="car.delete"/></a><br>
+                <a href="/car/edit.html?id=${car.id}"><fmt:message key="car.edit"/></a><br>
             </td>
         </tr>
     </c:forEach>

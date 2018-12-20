@@ -1,7 +1,7 @@
 package domain;
 
 public enum Role {
-    GUEST("Гость"), CLIENT("Клиент"), ADMIN("Администратор");
+    GUEST("role.guest"), CLIENT("role.client"), ADMIN("role.admin");
 
     private String name;
 

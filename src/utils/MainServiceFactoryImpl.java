@@ -19,26 +19,22 @@ public class MainServiceFactoryImpl implements ServiceFactory {
 
     @Override
     public UserService getUserService() throws FactoryException {
-        UserServiceImpl userService = new UserServiceImpl(getUserDao());
-        return userService;
+        return new UserServiceImpl(getUserDao());
     }
 
     @Override
     public CarService getCarService() throws FactoryException {
-        CarServiceImpl carService = new CarServiceImpl(getCarDao());
-        return carService;
+        return new CarServiceImpl(getCarDao());
     }
 
     @Override
     public OrderService getOrderService() throws FactoryException {
-        OrderServiceImpl orderService = new OrderServiceImpl(getOrderDao(), getUserService(), getCarService());
-        return orderService;
+        return new OrderServiceImpl(getOrderDao(), getUserService(), getCarService());
     }
 
     @Override
     public BillService getBillService() throws FactoryException {
-        BillServiceImpl billService = new BillServiceImpl(getBillDao(),getOrderService());
-        return billService;
+        return new BillServiceImpl(getBillDao(), getOrderService());
     }
 
     @Override
@@ -69,21 +65,21 @@ public class MainServiceFactoryImpl implements ServiceFactory {
 
     @Override
     public Connection getConnection() throws FactoryException {
-        if(connection == null) {
+        if (connection == null) {
             try {
-                connection = Connector.getConnection();
-            } catch(SQLException e) {
-                throw new FactoryException(e);
+                connection = ConnectionPool.getInstance().getConnection();
+            } catch (PoolException e) {
+                throw new FactoryException();
             }
         }
         return connection;
     }
 
     @Override
-    public void close() {
-        try {
-            connection.close();
+    public void close() throws SQLException {
+        if (connection != null) {
+            ConnectionPool.getInstance().freeConnection(connection);
             connection = null;
-        } catch(Exception e) {}
+        }
     }
 }

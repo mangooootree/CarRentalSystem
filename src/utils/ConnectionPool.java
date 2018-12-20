@@ -1,105 +1,91 @@
 package utils;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentSkipListSet;
 
-
-public final class ConnectionPool {
-
-    public static ConnectionPool INSTANCE;
-    private static ReentrantLock lock;
-    private BlockingQueue<Connection> connections;
-    private final static String DATABASE_URL = "jdbc:mysql://localhost:3306/carrentalservice" +
-                                                "?verifyServerCertificate=false"+
-                                                "&useSSL=false"+
-                                                "&requireSSL=false"+
-                                                "&useLegacyDatetimeCode=false"+
-                                                "&amp"+
-                                                "&serverTimezone=UTC";
-    private final static String DATABASE_LOGIN = "root";
-    private final static String DATABASE_PASSWORD = "admin";
-    private final static int CONNECTIONS_QUANTITY = 10;
-    private final static String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
+public class ConnectionPool {
+    private int maxSize;
+    private Queue<Connection> freeConnections = new ConcurrentLinkedQueue<>();
+    private Set<Connection> usedConnections = new ConcurrentSkipListSet<>();
 
     private ConnectionPool() {
-        Connection connection;
-            try {
-                connections = new ArrayBlockingQueue<>(CONNECTIONS_QUANTITY);
-                Class.forName(DATABASE_DRIVER).newInstance();
-
-                for (int i = 0; i < CONNECTIONS_QUANTITY; i++) {
-                    connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASSWORD);
-                    System.out.println("drivermanager has created new connection just now");
-                    if (connection != null) {
-                        connections.put(connection);
-                    }
-                }
-            } catch (ClassNotFoundException | SQLException ex) {
-
-            } catch (InstantiationException | IllegalAccessException | InterruptedException ex) {
-
-            }
     }
 
-    public static ConnectionPool getInstance() {
-
-        lock = new ReentrantLock();
-        if (INSTANCE == null) {
-            lock.lock();
-            try { 
-                if (INSTANCE == null) {
-                    INSTANCE = new ConnectionPool();
-                    System.out.println("pool has created");
-                }
-            } finally {
-                lock.unlock();
-            }
-        }
-        return INSTANCE;
-    }
-    public Connection getConnection() throws SQLException {
-
+    public Connection getConnection() throws PoolException {
         Connection connection = null;
-        try {
-            connection = connections.take();
-            System.out.println("connection has taken");
-            if (connection == null) {
-                throw new SQLException();
+        while (connection == null) {
+            try {
+                connection = freeConnections.poll();
+                if (connection != null) {
+                    close(connection);
+                    connection = null;
+                } else if (maxSize == 0 || usedConnections.size() < maxSize) {
+                    connection = establishConnection();
+                } else {
+                    throw new PoolException("maxSize exceeded");
+                }
+            } catch (SQLException e) {
+                throw new PoolException(e);
             }
-        } catch (InterruptedException ex) {
-
         }
+        usedConnections.add(connection);
         return connection;
     }
 
-    public void returnConnection(Connection connection) {
+    void freeConnection(Connection connection) throws SQLException {
+        usedConnections.remove(connection);
+        freeConnections.add(connection);
+    }
+
+    public void init(int minSize, int maxSize) throws PoolException {
         try {
-            if (connection != null) {
-                connections.put(connection);
+            if (minSize <= maxSize) {
+                for (int i = 0; i < minSize; i++) {
+                    freeConnections.add(establishConnection());
+                }
+                this.maxSize = maxSize;
+            } else {
+                throw new PoolException("minSize is to be less or equal maxSize");
             }
-        } catch (InterruptedException ex) {
+        } catch (SQLException e) {
+            throw new PoolException(e);
         }
     }
 
-    public static void releaseConnectionPool() {
-        if (INSTANCE != null) {
-            lock.lock();
-            try {
-                if (INSTANCE != null) {
-                    INSTANCE.connections.stream().filter((connection) -> (connection != null)).forEach((connection) -> {
-                        try {
-                            connection.close();
-                        } catch (SQLException e) {
-                        }
-                    });
+
+    public void destroy() {
+        synchronized (usedConnections) {
+            synchronized (freeConnections) {
+                usedConnections.addAll(freeConnections);
+                freeConnections.clear();
+                for (Connection connection : usedConnections) {
+                    close(connection);
                 }
-            } finally {
-                lock.unlock();
+                usedConnections.clear();
             }
         }
+    }
+
+    private Connection establishConnection() throws SQLException {
+        return new PooledConnection(Connector.getConnection());
+    }
+
+    private void close(Connection connection) {
+            synchronized (connection) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                }
+            }
+    }
+
+    private static ConnectionPool instance = new ConnectionPool();
+
+    public static ConnectionPool getInstance() {
+        return instance;
     }
 }

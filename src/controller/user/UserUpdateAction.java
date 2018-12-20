@@ -17,8 +17,6 @@ public class UserUpdateAction extends Action {
 
     @Override
     public Forward execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        StringBuilder message = new StringBuilder();
-
         String firstName = req.getParameter("firstname");
         String lastName = req.getParameter("lastname");
         String passport = req.getParameter("passport");
@@ -63,10 +61,9 @@ public class UserUpdateAction extends Action {
                 e.printStackTrace();
             }
 
-            message.append("Профиль обновлен.");
+            req.setAttribute("profileUpdated", "user.profileUpdated");
 
             //if user is updating his password
-
             String oldPassword = req.getParameter("oldPassword");
             String newPassword = req.getParameter("newPassword");
             if (!oldPassword.equals("") && !newPassword.equals("")) {
@@ -75,19 +72,18 @@ public class UserUpdateAction extends Action {
                     try {
                         userService.update(user);
                     } catch (ServiceException e) {
-                        e.printStackTrace();
+                        throw new ServletException();
                     }
-                    message.append(" Пароль обновлен.");
+                    req.setAttribute("passwordUpdated", "user.passwordUpdated");
                 } else {
-                    message.append(" Неправильный пароль.");
+                    req.setAttribute("passwordIncorrect", "user.passwordIncorrect");
                 }
             }
 
         }
         else {
-           message.append("Проверьте правильность заполнения формы");
+            req.setAttribute("checkForm", "user.checkForm");
         }
-        req.setAttribute("message", message.toString());
         return new Forward("/user/edit", false);
     }
 }

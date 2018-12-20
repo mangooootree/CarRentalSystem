@@ -6,33 +6,33 @@
 <table align="center" border="1" cellpadding="10">
     <tr>
         <th>
-            Заказчик
+            <fmt:message key="order.client"/>
         </th>
         <th>
-            Автомобиль
+            <fmt:message key="order.car"/>
         </th>
         <th>
-            Дата
+            <fmt:message key="order.date"/>
         </th>
         <th>
-            Дни
+            <fmt:message key="order.days"/>
         </th>
         <th>
-            Стоимость
+            <fmt:message key="order.price"/>
         </th>
         <th>
-            Оплачен
+            <fmt:message key="order.paid"/>
         </th>
         <th>
-            Одобрен
+            <fmt:message key="order.accepted"/>
         </th>
         <th>
-            Комментарий
+            <fmt:message key="order.comment"/>
         </th>
 
         <c:if test="${currentUser.role == 'ADMIN'}">
             <th>
-                Управление
+                <fmt:message key="order.handling"/>
             </th>
         </c:if>
 
@@ -44,13 +44,22 @@
             </td>
             <td>
                     ${order.car.model} ${order.car.licencePlate}
-                <br> ${order.car.color} ${order.car.automaticTransmission ? 'АКПП':'МКПП'}
+                <br> ${order.car.color}
+
+                        <c:choose>
+                            <c:when test="${car.automaticTransmission == 'true'}">
+                                <fmt:message key="car.gearbox.auto"/>
+                            </c:when>
+                            <c:when test="${car.automaticTransmission == 'false'}">
+                                <fmt:message key="car.gearbox.manual"/>
+                            </c:when>
+                        </c:choose>
             </td>
             <td>
                 <div style="font-size: small">
-                    Дата заказа:<br>
+                    <fmt:message key="order.date"/>:<br>
                     <fmt:formatDate pattern="dd.MM.yyyy" value="${order.date}"/> <br><br>
-                    Истекает:<br>
+                    <fmt:message key="order.expired"/>:<br>
                     <fmt:formatDate pattern="dd.MM.yyyy" value="${order.expireDate}"/>
                 </div>
             </td>
@@ -61,15 +70,31 @@
                     ${order.totalCost}
             </td>
             <td>
-                    ${order.paid ? 'Оплачен':'Не оплачен'}
+                        <c:choose>
+                            <c:when test="${order.paid == 'true'}">
+                                <fmt:message key="order.paid"/>
+                            </c:when>
+                            <c:when test="${order.paid == 'false'}">
+                                <fmt:message key="order.unpaid"/>
+                            </c:when>
+                        </c:choose>
             </td>
             <td>
                 <c:choose>
                     <c:when test="${order.reviewed == 'true'}">
-                        ${order.accepted ? 'Одобрен':'Отклонен'}
+
+                        <c:choose>
+                            <c:when test="${order.accepted == 'true'}">
+                                <fmt:message key="order.accepted"/>
+                            </c:when>
+                            <c:when test="${order.accepted == 'false'}">
+                                <fmt:message key="order.rejected"/>
+                            </c:when>
+                        </c:choose>
+
                     </c:when>
                     <c:otherwise>
-                        На рассмотрении
+                        <fmt:message key="order.underConsideration"/>
                     </c:otherwise>
                 </c:choose>
             </td>
@@ -78,9 +103,9 @@
                     <c:choose>
                         <c:when test="${currentUser.role == 'ADMIN'}">
                             <form action="/order/setComment.html?id=${order.id}" method="post" style="width: 200px">
-                                <input type="text" value="" name="comment" placeholder="Введите комментарий">
+                                <input type="text" value="" name="comment" placeholder="<fmt:message key="order.putComment"/>">
                                 <input type="hidden" name="id" value="${order.id}">
-                                <button type="submit">Добавить</button>
+                                <button type="submit"><fmt:message key="order.addComment"/></button>
                             </form>
                         </c:when>
                     </c:choose>
@@ -88,13 +113,13 @@
 
             <c:if test="${currentUser.role == 'ADMIN'}">
                 <td>
-                    <a href="/order/accept.html?id=${order.id}">Одобрить</a><br>
-                    <a href="/order/reject.html?id=${order.id}">Отклонить</a><br>
-                    <a href="/order/setPaid.html?id=${order.id}">Оплачен</a><br>
-                    <a href="/order/setUnPaid.html?id=${order.id}">Не оплачен</a><br>
-                    <a href="/order/close.html?id=${order.id}">Возврат авто</a><br>
-                    <a href="/bill/new.html?id=${order.id}">Выставить счет</a><br>
-                    <a href="/order/delete.html?id=${order.id}">Удалить</a><br>
+                    <a href="/order/accept.html?id=${order.id}"><fmt:message key="order.accept"/></a><br>
+                    <a href="/order/reject.html?id=${order.id}"><fmt:message key="order.reject"/></a><br>
+                    <a href="/order/setPaid.html?id=${order.id}"><fmt:message key="order.paid"/></a><br>
+                    <a href="/order/setUnPaid.html?id=${order.id}"><fmt:message key="order.unpaid"/></a><br>
+                    <a href="/order/close.html?id=${order.id}"><fmt:message key="order.close"/></a><br>
+                    <a href="/bill/new.html?id=${order.id}"><fmt:message key="order.newBill"/></a><br>
+                    <a href="/order/delete.html?id=${order.id}"><fmt:message key="order.delete"/></a><br>
                 </td>
             </c:if>
         </tr>

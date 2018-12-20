@@ -17,9 +17,10 @@ public class DispatcherServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             Connector.init();
-        } catch(ClassNotFoundException e) {
-            throw new ServletException(e);
         }
+        catch (ClassNotFoundException e){
+        }
+
     }
 
     @Override
@@ -40,8 +41,6 @@ public class DispatcherServlet extends HttpServlet {
             throws ServletException, IOException {
         String url = req.getRequestURI();
         String context = req.getContextPath();
-
-        //req.setAttribute("tempDir", (File)getServletContext().getAttribute("javax.servlet.context.tempdir"));
 
         int postfixIndex = url.lastIndexOf(".html");
         if(postfixIndex != -1) {

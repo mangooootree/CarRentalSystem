@@ -5,24 +5,24 @@
 <table align="center" border="1" cellpadding="20">
 
     <td valign="top" align="center">
-        <h2>Редактировать автомобиль</h2>
+        <h2><fmt:message key="car.editCar"/></h2>
         <form action="/car/update.html" method="post" enctype='multipart/form-data'>
             <div align="left">
-                <p>Модель<br>
+                <p><fmt:message key="car.model"/><br>
                     <input type="text" value="${car.model}" name="model"></p>
-                <p>Цвет<br>
+                <p><fmt:message key="car.color"/><br>
                     <input type="text" value="${car.color}" name="color"></p>
-                <p>Госномер<br>
+                <p><fmt:message key="car.licencePlate"/><br>
                     <input type="text" value="${car.licencePlate}" name="licencePlate"></p>
-                <p>Тип КПП<br>
+                <p><fmt:message key="car.gearbox"/><br>
                     <select name="gearbox">
-                        <option value="false">Ручная</option>
-                        <option value="true">Автоматическая</option>
+                        <option value="false"><fmt:message key="car.gearbox.manual"/></option>
+                        <option value="true"><fmt:message key="car.gearbox.auto"/></option>
                     </select></p>
                 <p>Цена<br>
                     <input type="text" value="${car.price}" name="price"></p>
                     <input type="hidden" name="id" value="${car.id}"></p>
-                <button type="submit">Сохранить</button>
+                <button type="submit"><fmt:message key="car.editButton"/></button>
             </div>
         </form>
     </td>

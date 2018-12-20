@@ -2,21 +2,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="common/header.jsp" %>
 <div align="center">
-    <h2>Registration</h2>
+    <h2><fmt:message key="registration.registration"/></h2>
     <form action="/registration.html" method="post">
         <div align="left">
-            <p><label>Имя:</label>
+            <p><label><fmt:message key="user.firstname"/></label>
                 <input type="text" name="firstname"></p>
-            <p><label>Фамилия:</label>
+            <p><label><fmt:message key="user.lastname"/></label>
                 <input type="text" name="lastname"></p>
-            <p><label>Паспорт:</label>
+            <p><label><fmt:message key="user.passport"/></label>
                 <input type="text" name="passport"></p>
-            <p><label>Логин</label>
+            <p><label><fmt:message key="user.login"/></label>
                 <input type="text" name="login"></p>
-            <p><label>Пароль</label>
+            <p><label><fmt:message key="user.password"/></label>
                 <input type="password" name="password"></p>
         </div>
-        <button type="submit">Отправить</button>
+        <button type="submit"><fmt:message key="registration.button"/></button>
     </form>
     <br>
     ${message}

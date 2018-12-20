@@ -9,40 +9,40 @@
         </td>
         <tr>
             <th>
-                Клиент
+                <fmt:message key="bill.client"/>
             </th>
             <th>
-                Автомобиль
+                <fmt:message key="bill.car"/>
             </th>
             <th>
-                Дата заказа
+                <fmt:message key="bill.orderDate"/>
             </th>
             <th>
-                Стоимость
+                <fmt:message key="bill.price"/>
             </th>
             <th>
-                Повреждения
+                <fmt:message key="bill.damage"/>
             </th>
             <th>
-                Оплата
+                <fmt:message key="bill.paid"/>
             </th>
             <c:if test="${currentUser.role == 'ADMIN'}">
                 <th>
-                Управление
+                    <fmt:message key="bill.handling"/>
                 </th>
             </c:if>
         </tr>
         <c:forEach items="${bills}" var="bill">
             <tr>
                 <td>
-                    Имя: ${bill.order.user.firstname}<br>
-                    Фамилия: ${bill.order.user.lastname}<br>
-                    Паспорт: ${bill.order.user.passport}<br>
+                    <fmt:message key="user.firstname"/>: ${bill.order.user.firstname}<br>
+                    <fmt:message key="user.lastname"/>: ${bill.order.user.lastname}<br>
+                    <fmt:message key="user.passport"/>: ${bill.order.user.passport}<br>
                 </td>
                 <td>
-                    Модель: ${bill.order.car.model}<br>
-                    Цвет: ${bill.order.car.color}<br>
-                    Госномер: ${bill.order.car.licencePlate}<br>
+                    <fmt:message key="car.model"/>: ${bill.order.car.model}<br>
+                    <fmt:message key="car.color"/>: ${bill.order.car.color}<br>
+                    <fmt:message key="car.licencePlate"/>: ${bill.order.car.licencePlate}<br>
                 </td>
                 <td>
                     <fmt:formatDate pattern="dd.MM.yyyy" value="${bill.order.date}"/>
@@ -54,13 +54,19 @@
                         ${bill.damageDescription}
                 </td>
                 <td>
-                        ${bill.paid ? 'Оплачен':'Не оплачен'}
+                            <c:choose>
+                                <c:when test="${bill.paid == 'true'}">
+                                    <fmt:message key="bill.paid"/>
+                                </c:when>
+                                <c:when test="${bill.paid == 'false'}">
+                                    <fmt:message key="bill.unpaid"/>
+                                </c:when>
+                            </c:choose>
                 </td>
 
                 <c:if test="${currentUser.role == 'ADMIN'}">
                     <td>
-                        <a href="/bill/delete.html?id=${bill.id}">Удалить</a><br>
-                        <a href="/bill/edit.html?id=${bill.id}">Редактировать</a><br>
+                        <a href="/bill/delete.html?id=${bill.id}"><fmt:message key="bill.delete"/></a><br>
                     </td>
                 </c:if>
             </tr>

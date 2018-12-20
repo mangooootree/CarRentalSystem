@@ -68,14 +68,12 @@ public class SecurityFilter implements Filter {
             url = url.substring(context.length());
         }
 
-
         User user = (User) httpReq.getSession().getAttribute("currentUser");
         if (user == null) {
             user = new User();
             user.setRole(Role.GUEST);
             httpReq.getSession().setAttribute("currentUser", user);
         }
-
 
         Set<Role> roles = permissions.get(url);
         if(roles != null) {
@@ -91,7 +89,7 @@ public class SecurityFilter implements Filter {
             chain.doFilter(req, resp);
             return;
         }
-        httpResp.sendRedirect(context + "/login.html?message=login.message.access.denied");
+        httpResp.sendRedirect(context + "/login.html");
     }
 
     @Override

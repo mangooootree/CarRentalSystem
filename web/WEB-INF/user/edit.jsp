@@ -12,23 +12,23 @@
         </c:when>
     </c:choose>
 
-    <h2>Изменение профиля</h2>
+    <h2><fmt:message key="user.editProfile"/></h2>
     <form action="/user/update.html" method="post">
         <div align="left">
-            <p><label>Имя:</label>
+            <p><label><fmt:message key="user.firstname"/></label>
                 <input type="text" name="firstname" value="${user.firstname}"></p>
-            <p><label>Фамилия:</label>
+            <p><label><fmt:message key="user.lastname"/></label>
                 <input type="text" name="lastname" value="${user.lastname}"></p>
-            <p><label>Паспорт:</label>
+            <p><label><fmt:message key="user.passport"/></label>
                 <input type="text" name="passport" value="${user.passport}"></p>
             <br>
 
             <div style="background: #f9fafe">
                 <br>
-                Изменить пароль: (необязательные поля)
-                <p><label>Старый пароль:</label>
+                <fmt:message key="user.edit.changePassword"/> (<fmt:message key="user.edit.optionalFields"/>)
+                <p><label><fmt:message key="user.edit.oldPassword"/></label>
                     <input type="password" name="oldPassword"></p>
-                <p><label>Новый пароль:</label>
+                <p><label><fmt:message key="user.edit.newPassword"/></label>
                     <input type="password" name="newPassword"></p>
                 <input type="hidden" name="id" value=${user.id}></p>
                 <br>
@@ -36,16 +36,27 @@
 
             <br>
             <c:if test="${currentUser.role == 'ADMIN'}">
-            <p><label>Роль</label>
+            <p><label><fmt:message key="user.role"/></label>
                 <select name="role">
-                    <option ${client} value="1">Клиент</option>
-                    <option ${admin} value="2">Администратор</option>
+                    <option ${client} value="1"><fmt:message key="role.client"/></option>
+                    <option ${admin} value="2"><fmt:message key="role.admin"/></option>
                 </select>
                 </c:if>
         </div>
-        <button type="submit">Сохранить</button>
+        <button type="submit"><fmt:message key="user.edit.button"/></button>
     </form>
     <br>
-    ${message}
+    <c:if test="${not empty profileUpdated}">
+        <fmt:message key="${profileUpdated}"/>.
+    </c:if>
+    <c:if test="${not empty passwordUpdated}">
+        <fmt:message key="${passwordUpdated}"/>.
+    </c:if>
+    <c:if test="${not empty passwordIncorrect}">
+        <fmt:message key="${passwordIncorrect}"/>.
+    </c:if>
+    <c:if test="${not empty checkForm}">
+        <fmt:message key="${checkForm}"/>.
+    </c:if>
 </div>
 <%@include file="../common/footer.jsp" %>
