@@ -72,7 +72,7 @@ public class UserUpdateAction extends Action {
                     try {
                         userService.update(user);
                     } catch (ServiceException e) {
-                        throw new ServletException();
+                        throw new ServletException(e);
                     }
                     req.setAttribute("passwordUpdated", "user.passwordUpdated");
                 } else {

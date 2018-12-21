@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import service.*;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 
 public class MainServiceFactoryImpl implements ServiceFactory {
@@ -79,10 +78,13 @@ public class MainServiceFactoryImpl implements ServiceFactory {
     }
 
     @Override
-    public void close() throws SQLException {
+    public void close() throws FactoryException {
         if (connection != null) {
             log.debug("Realizing connection");
-            ConnectionPool.getInstance().freeConnection(connection);
+            try {
+                ConnectionPool.getInstance().freeConnection(connection);
+            } catch (PoolException e) {
+            }
             connection = null;
         }
     }

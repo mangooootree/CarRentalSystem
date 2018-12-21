@@ -49,8 +49,27 @@
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
 
+
     <listener>
         <listener-class>listener.ContextListener</listener-class>
     </listener>
+
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/error.jsp</location>
+    </error-page>
+
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>customtags</taglib-uri>
+            <taglib-location>/WEB-INF/custom.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 
 </web-app>

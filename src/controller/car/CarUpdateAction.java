@@ -33,13 +33,12 @@ public class CarUpdateAction extends Action {
         try {
             price = Long.parseLong(req.getParameter("price"));
         } catch (NumberFormatException e) {
-            throw new ServletException();
         }
 
-        if (id != null && model != null && color != null && licencePlate != null && price != null) {
-            CarService carService = null;
+        if (id != null && model != null && !model.equals("") && color != null && !color.equals("")
+                && licencePlate != null && !licencePlate.equals("") && price != null) {
             try {
-                carService = getServiceFactory().getCarService();
+                CarService carService = getServiceFactory().getCarService();
                 Car car = carService.findById(id);
                 car.setModel(model);
                 car.setColor(color);
@@ -48,7 +47,7 @@ public class CarUpdateAction extends Action {
                 car.setPrice(price);
                 carService.update(car);
             } catch (FactoryException | ServiceException e) {
-                throw new ServletException();
+                throw new ServletException(e);
             }
         }
 

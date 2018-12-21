@@ -1,8 +1,6 @@
 package controller;
 
 import domain.Car;
-import domain.Role;
-import domain.User;
 import service.CarService;
 import service.ServiceException;
 import utils.FactoryException;
@@ -21,10 +19,8 @@ public class MainAction extends Action {
             CarService carService = getServiceFactory().getCarService();
             List<Car> cars = carService.findAll();
             req.setAttribute("cars", cars);
-        } catch (FactoryException e) {
-            e.printStackTrace();
-        } catch (ServiceException e) {
-            e.printStackTrace();
+        } catch (FactoryException | ServiceException e) {
+            throw new ServletException(e);
         }
         return null;
     }

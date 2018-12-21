@@ -15,7 +15,6 @@ import java.io.IOException;
 public class CarDeleteAction extends Action {
     @Override
     public Forward execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         Long id = null;
         try {
             id = Long.parseLong(req.getParameter("id"));

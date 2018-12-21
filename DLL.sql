@@ -51,3 +51,5 @@ CREATE TABLE IF NOT EXISTS `Bill` (
   `paid`     boolean  NOT NULL,
   PRIMARY KEY(`id`)
 );
+
+INSERT INTO `user` (`firstname`, `lastname`, `passport`, `login`, `password`, `role`) VALUES ("Stas", "Osipov", "BM1445605 Первомайским РОВД 15.02.2015", "qq", "qq", 2);

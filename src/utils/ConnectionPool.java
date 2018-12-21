@@ -10,33 +10,31 @@ import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
     private static final Logger log = LogManager.getLogger(ConnectionPool.class.getName());
-    private int maxSize;
     private BlockingQueue<Connection> connections;
 
     private ConnectionPool() {
     }
 
-    public Connection getConnection() throws PoolException {
+     Connection getConnection() throws PoolException {
         Connection connection = null;
         try {
             connection = connections.take();
-            if (connection == null) {
-                throw new PoolException("There are no more available connections to the database");
-            }
-        } catch (InterruptedException ex) {
-            log.fatal("Can't establish connection to the db. " + ex);
+        } catch (InterruptedException e) {
+            log.fatal("Can't establish connection to the db. " + e);
+            throw new PoolException(e);
         }
         log.debug("Getting connection. Remains " + connections.size());
         return connection;
     }
 
-    void freeConnection(Connection connection) throws SQLException {
+    void freeConnection(Connection connection) throws PoolException {
         try {
             if (connection != null) {
                 connections.put(connection);
             }
-        } catch (InterruptedException ex) {
-            log.error("Exception while returning the connection. " + ex);
+        } catch (InterruptedException e) {
+            log.error("Exception while returning the connection. " + e);
+            throw new PoolException(e);
         }
     }
 
@@ -48,7 +46,6 @@ public class ConnectionPool {
                     connections.add(establishConnection());
                     log.debug("Adding connection");
                 }
-                this.maxSize = maxSize;
             }
             log.debug("Pool is full");
         } catch (SQLException e) {
